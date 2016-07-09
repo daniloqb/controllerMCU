@@ -448,6 +448,9 @@ class ControllerDeviceCOMJson:
 
         comport.close()
 
+
+
+
 class ControllerCOMDeviceJson:
     def __init__(self,port, baudrate,timeout=20):
         self.port = port
@@ -468,6 +471,7 @@ class ControllerCOMDeviceJson:
         print '\nRetorno da serial: %s' % (VALUE_SERIAL)
 
         comport.close()
+        return VALUE_SERIAL
 
 class ControllerDeviceEthernet:
     def __init__(self,device,hostname,port):

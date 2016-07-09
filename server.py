@@ -25,6 +25,19 @@ def bad_request(error):
 
 
 '''
+This part of code is responsible for the status
+'''
+
+@app.route('/controllerMCU/status',methods=['GET'])
+def control_status():
+    d = dict()
+    d['state'] = 'all'
+    status = controllerCOM.execute(d);
+    return jsonify(json.loads(status))
+
+
+
+'''
 This part of code is reponsible for the datashow controller
 
 '''
@@ -62,14 +75,72 @@ def control_airconditioneer():
     if not request.json:
         abort(400)
 
+
+    #verify the action parameter
+
+    if 'act' in request.json:
+        act = request.json['act']
+        if act in ['normal','clear','filter','sleep','offtimer','ontimer']:
+            valid_commands = True
+            york.setAct(act)
+        else:
+            return jsonify({'error':'invalid action'})
+
+
     #verify the status parameter
+
     if 'status' in request.json:
         status = request.json['status']
-        if status == 'on' or status == 'off':
+        if status in ['on', 'off']:
             valid_commands = True
             york.setStatus(status)
         else:
             return jsonify({'error':'invalid status'})
+
+
+    #verify the mode parameter
+
+    if 'mode' in request.json:
+        mode = request.json['mode']
+        if mode in ['fan','cool','dry']:
+            valid_commands = True
+            york.setMode(mode)
+        else:
+            return jsonify({'error': 'invalid mode'})
+
+
+    #verify the fan parameter
+
+    if 'fan' in request.json:
+        fan = request.json['fan']
+        if fan in ['01','02','03','auto']:
+            valid_commands = True
+            york.setFan(fan)
+        else:
+            return jsonify({'error': 'invalid fan'})
+
+
+    #verify the sweep parameter
+
+    if 'sweep' in request.json:
+        sweep = request.json['sweep']
+        if sweep in ['on','off']:
+            valid_commands = True
+            york.setSweep(sweep)
+        else:
+            return jsonify({'error': 'invalid sweep'})
+
+
+    #verify the temperature parameter
+    if 'temp' in request.json:
+        temp = request.json['temp']
+        if temp in ['16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32']:
+            valid_commands = True
+            york.setTemp(temp)
+        else:
+            return jsonify({"error":"invalid temperature"})
+
+
 
 
     '''
@@ -80,6 +151,10 @@ def control_airconditioneer():
         return jsonify(york.getJsonCode())
     else:
         return jsonify({'error':'invalid parameters'})
+
+
+
+
 
 '''
 From Here is the main control
