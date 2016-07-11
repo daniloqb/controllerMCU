@@ -31,19 +31,55 @@ class LED(Device):
 
 
 class DatashowNEC(Device):
-    __POWER_ON  = 0x189710EF
-    __POWER_OFF = 0x189728D7
 
+    d_codes = {'powerOn'   :0x189710EF,
+               'powerOff'  :0x189728D7,
+               'autoAdj'   :0x1897609F,
+               'num0'      : 0x1897827D,
+               'num1'      : 0x189720DF,
+               'num2'      : 0x1897A05F,
+               'num3'      : 0x1897AA55,
+               'num4'      : 0x1897C03F,
+               'num5'      : 0x1897639C,
+               'num6'      : 0x18972AD5,
+               'num7'      : 0x1897E41B,
+               'num8'      : 0x18976A95,
+               'num9'      : 0x18974AB5,
+               'idSet'     : 0x189752AD,
+               'clear'     : 0x189742BD,
+               'avMute'    : 0x1897E21D,
+               'freeze'    : 0x189732CD,
+               'exit'      : 0x1897A45B,
+               'menu'      : 0x1897629D,
+               'arrowUp'   : 0x18971DE2,
+               'arrowDown' : 0x18973DC2,
+               'arrowLeft' : 0x18977D82,
+               'arrowRight': 0x18975DA2,
+               'enter'     : 0x1897E817,
+               'zoomPlus'  : 0x1897916E,
+               'zoomMinus' : 0x189751AE,
+               'pageUp'    : 0x189754AB,
+               'pageDown'  : 0x1897D42B,
+               'lClick'    : 0x189734CB,
+               'rClick'    : 0x1897B44B,
+               'eco'       : 0x18976897,
+               'keystone'  : 0x189701FE,
+               'picture'   : 0x1897B04F,
+               'help'      : 0x1897728D,
+               'focus'     : 0x189705FA,
+               'aspect'    : 0x189708F7,
+               'volUp'     : 0x189712ED,
+               'volDown'   : 0x1897926D,
+               }
 
 
     def __init__(self):
         self.__infrared_code = 0
 
-    def powerOn(self):
-        self.__infrared_code = str(self.__POWER_ON)
 
-    def powerOff(self):
-        self.__infrared_code = str(self.__POWER_OFF)
+    def setIRCode(self,code):
+        self.__infrared_code = str(self.d_codes[code])
+
 
     def getJsonCode(self):
 

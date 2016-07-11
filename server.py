@@ -50,12 +50,10 @@ def control_datashow():
 
     action = request.json['action']
 
-    if action == 'powerOn':
-        nec.powerOn()
-    elif action == 'powerOff':
-        nec.powerOff()
+    if action not in nec.d_codes.keys():
+        return jsonify({'error': 'unknown function'})
     else:
-        return jsonify({'error':'unknown function'})
+        nec.setIRCode(action)
 
     controllerCOM.execute(nec.getJsonCode());
     return jsonify(nec.getJsonCode())
